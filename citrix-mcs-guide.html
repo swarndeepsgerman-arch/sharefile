@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citrix MCS — Complete Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy-mid: #0f2044;
+  --navy-light: #1a3460;
+  --blue: #1565c0;
+  --blue-bright: #1e88e5;
+  --cyan: #00b4d8;
+  --cyan-light: #48cae4;
+  --teal: #0d9488;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --orange: #f97316;
+  --red: #ef4444;
+  --purple: #7c3aed;
+  --white: #ffffff;
+  --off-white: #f0f4f8;
+  --gray-100: #e2e8f0;
+  --gray-300: #94a3b8;
+  --gray-500: #64748b;
+  --gray-700: #334155;
+  --text-main: #e8f0fe;
+  --text-muted: #90aac8;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --border-bright: rgba(0,180,216,0.3);
+  --code-bg: #0d1b2e;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--navy);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─── ANIMATED BACKGROUND ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(21,101,192,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 80%, rgba(0,180,216,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(13,148,136,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* GRID PATTERN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-wrap { position: relative; z-index: 1; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 0 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,180,216,0.12);
+  border: 1px solid rgba(0,180,216,0.3);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.hero-logo {
+  width: 100px; height: 100px;
+  margin: 0 auto 2rem;
+  position: relative;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-logo svg { width: 100%; height: 100%; }
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1.0;
+  margin-bottom: 1rem;
+  animation: fadeUp 0.6s 0.2s ease both;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan-light) 50%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeUp 0.6s 0.8s ease both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--cyan), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── NAV ─── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  padding: 12px 0;
+  scrollbar-width: none;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-tab:hover { background: var(--surface-hover); color: var(--text-main); }
+.nav-tab.active { background: rgba(0,180,216,0.15); color: var(--cyan); }
+.nav-tab svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* ─── MAIN CONTENT ─── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ─── SECTIONS ─── */
+.content-section {
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.section-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-icon svg { width: 28px; height: 28px; }
+
+.section-header-text h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.section-header-text p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+/* ─── CARDS ─── */
+.card-grid { display: grid; gap: 16px; }
+.card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,180,216,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+.card:hover::before { opacity: 1; }
+
+.card-accent { border-left: 3px solid var(--cyan); }
+.card-accent-green { border-left: 3px solid var(--green); }
+.card-accent-amber { border-left: 3px solid var(--amber); }
+.card-accent-purple { border-left: 3px solid var(--purple); }
+.card-accent-orange { border-left: 3px solid var(--orange); }
+
+.card-icon-sm {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.card-icon-sm svg { width: 18px; height: 18px; }
+
+.card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.card p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ─── LABELS ─── */
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.label:first-child { margin-top: 0; }
+
+/* ─── BADGES ─── */
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.badge-cyan { background: rgba(0,180,216,0.1); color: var(--cyan-light); border-color: rgba(0,180,216,0.25); }
+.badge-green { background: rgba(16,185,129,0.1); color: #6ee7b7; border-color: rgba(16,185,129,0.25); }
+.badge-amber { background: rgba(245,158,11,0.1); color: #fcd34d; border-color: rgba(245,158,11,0.25); }
+.badge-purple { background: rgba(124,58,237,0.1); color: #c4b5fd; border-color: rgba(124,58,237,0.25); }
+.badge-orange { background: rgba(249,115,22,0.1); color: #fdba74; border-color: rgba(249,115,22,0.25); }
+
+/* ─── FLOW ─── */
+.flow-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 1rem 0;
+}
+
+.flow-step {
+  background: rgba(0,180,216,0.08);
+  border: 1px solid rgba(0,180,216,0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cyan-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-step .step-num {
+  background: rgba(0,180,216,0.2);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+/* ─── CODE ─── */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.code-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--teal));
+}
+
+.code-block pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #a8d8ff;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.code-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+/* ─── INFO BOXES ─── */
+.info-box {
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+  border-left: 3px solid;
+}
+
+.info-box.tip {
+  background: rgba(0,180,216,0.06);
+  border-color: var(--cyan);
+  color: #b0d4e8;
+}
+
+.info-box.warn {
+  background: rgba(245,158,11,0.06);
+  border-color: var(--amber);
+  color: #e0c88a;
+}
+
+.info-box.danger {
+  background: rgba(239,68,68,0.06);
+  border-color: var(--red);
+  color: #f5a3a3;
+}
+
+.info-box strong {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── MINI GRID ─── */
+.mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 1rem 0; }
+
+.mini-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.mini-card-title { font-size: 12px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.mini-card-body { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* ─── SECTION VISUALS ─── */
+.visual-banner {
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── COMPARISON TABLE ─── */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.compare-table th {
+  background: rgba(0,180,216,0.1);
+  padding: 12px 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cyan-light);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tbody tr:hover td { background: var(--surface-hover); color: var(--text-main); }
+
+.compare-table td:first-child { color: var(--text-main); font-weight: 500; }
+
+/* ─── ACCORDION ─── */
+.accordion { display: flex; flex-direction: column; gap: 8px; }
+
+.acc-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.acc-item.open { border-color: var(--border-bright); }
+
+.acc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.acc-header:hover { background: var(--surface-hover); }
+
+.acc-num {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  background: rgba(0,180,216,0.15);
+  color: var(--cyan);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.acc-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  flex: 1;
+}
+
+.acc-arrow {
+  color: var(--text-muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.acc-body-inner {
+  padding: 0 18px 18px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+/* ─── ARCHITECTURE SVG ─── */
+.arch-diagram {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  margin: 2rem 0;
+  overflow: hidden;
+}
+
+/* ─── PS REFERENCE ─── */
+.ps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+
+/* ─── BEST PRACTICE CHECKLIST ─── */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.checklist li .check {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(16,185,129,0.15);
+  border: 1.5px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.checklist li .check svg { width: 10px; height: 10px; stroke: var(--green); }
+
+/* ─── FOOTER ─── */
+.footer {
+  padding: 4rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cyan), var(--blue-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.footer p { font-size: 13px; color: var(--text-muted); }
+
+/* ─── UTILITIES ─── */
+.text-cyan { color: var(--cyan); }
+.text-green { color: var(--green); }
+.text-amber { color: var(--amber); }
+.text-muted { color: var(--text-muted); }
+.text-white { color: var(--white); }
+.fw-600 { font-weight: 600; }
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .section-header { flex-direction: column; gap: 1rem; }
+  .hero h1 { font-size: 3rem; }
+  .hero-stats { gap: 1.5rem; }
+}
+</style>
+</head>
+
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    Complete Technical Reference
+  </div>
+
+  <!-- Logo SVG -->
+  <div class="hero-logo">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="24" fill="rgba(0,180,216,0.12)" stroke="rgba(0,180,216,0.3)" stroke-width="1"/>
+      <!-- Server rack icon -->
+      <rect x="22" y="20" width="56" height="12" rx="3" fill="rgba(0,180,216,0.3)" stroke="rgba(0,180,216,0.6)" stroke-width="1.5"/>
+      <rect x="22" y="36" width="56" height="12" rx="3" fill="rgba(0,180,216,0.2)" stroke="rgba(0,180,216,0.4)" stroke-width="1.5"/>
+      <rect x="22" y="52" width="56" height="12" rx="3" fill="rgba(0,180,216,0.15)" stroke="rgba(0,180,216,0.3)" stroke-width="1.5"/>
+      <!-- Dots -->
+      <circle cx="68" cy="26" r="2.5" fill="#00b4d8"/>
+      <circle cx="74" cy="26" r="2.5" fill="rgba(0,180,216,0.4)"/>
+      <circle cx="68" cy="42" r="2.5" fill="#00b4d8"/>
+      <circle cx="74" cy="42" r="2.5" fill="rgba(0,180,216,0.4)"/>
+      <circle cx="68" cy="58" r="2.5" fill="rgba(0,180,216,0.5)"/>
+      <!-- Connection lines -->
+      <line x1="50" y1="68" x2="30" y2="80" stroke="rgba(0,180,216,0.4)" stroke-width="1.5"/>
+      <line x1="50" y1="68" x2="50" y2="80" stroke="rgba(0,180,216,0.4)" stroke-width="1.5"/>
+      <line x1="50" y1="68" x2="70" y2="80" stroke="rgba(0,180,216,0.4)" stroke-width="1.5"/>
+      <circle cx="30" cy="82" r="4" fill="rgba(0,180,216,0.2)" stroke="rgba(0,180,216,0.5)" stroke-width="1.5"/>
+      <circle cx="50" cy="82" r="4" fill="rgba(0,180,216,0.2)" stroke="rgba(0,180,216,0.5)" stroke-width="1.5"/>
+      <circle cx="70" cy="82" r="4" fill="rgba(0,180,216,0.2)" stroke="rgba(0,180,216,0.5)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <h1>Machine Creation<br>Services</h1>
+  <p class="hero-subtitle">The complete engineering guide to Citrix MCS — from architecture to automation, provisioning to troubleshooting.</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">8</div>
+      <div class="hero-stat-label">Topic areas</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50+</div>
+      <div class="hero-stat-label">PowerShell commands</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Catalog types</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Hypervisor-agnostic</div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    Scroll to explore
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ STICKY NAV ═══════════════ -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#overview" class="nav-tab active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Overview
+    </a>
+    <a href="#architecture" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Architecture
+    </a>
+    <a href="#catalog-types" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      Catalog types
+    </a>
+    <a href="#prereqs" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Prerequisites
+    </a>
+    <a href="#provisioning" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      Provisioning
+    </a>
+    <a href="#updates" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Image updates
+    </a>
+    <a href="#cache" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+      Write-back cache
+    </a>
+    <a href="#troubleshoot" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Troubleshooting
+    </a>
+    <a href="#powershell" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      PowerShell
+    </a>
+    <a href="#bestpractice" class="nav-tab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Best practices
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="container">
+
+<!-- ─── 1. OVERVIEW ─── -->
+<section class="content-section" id="overview">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(0,180,216,0.12); border:1px solid rgba(0,180,216,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>What is Machine Creation Services?</h2>
+      <p>MCS is Citrix's hypervisor-agnostic provisioning technology that creates and manages pools of virtual machines from a single master image — without requiring a dedicated provisioning server.</p>
+    </div>
+  </div>
+
+  <!-- Core concept visual -->
+  <div class="visual-banner" style="background: linear-gradient(135deg, rgba(21,101,192,0.15) 0%, rgba(0,180,216,0.08) 100%); border: 1px solid rgba(0,180,216,0.15);">
+    <div class="label" style="margin-top:0">Core concept — the 3-layer model</div>
+    <div class="flow-steps" style="margin-top: 1rem; justify-content: center;">
+      <div class="flow-step"><span class="step-num">1</span>Master Image VM</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span class="step-num">2</span>Snapshot</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span class="step-num">3</span>MCS Catalog</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span class="step-num">4</span>Cloned VMs (provisioned)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span class="step-num">5</span>Users connect via Broker</div>
+    </div>
+    <p style="font-size:13px; color: var(--text-muted); margin-top: 1rem; text-align: center;">MCS calls the hypervisor API directly — no PVS server, no TFTP, no network streaming required.</p>
+  </div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card card-accent">
+      <div class="card-icon-sm" style="background: rgba(0,180,216,0.1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <h3>Identity disk</h3>
+      <p>A tiny ~16 MB virtual disk attached to each VM holding the unique machine SID, computer name, and AD account. Gives each clone its own identity while sharing the base OS image.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon-sm" style="background: rgba(0,180,216,0.1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <h3>Shared base disk</h3>
+      <p>All VMs in a non-persistent catalog share a single read-only copy of the base OS disk. This drastically reduces storage consumption and eliminates duplicate I/O during boot storms.</p>
+    </div>
+    <div class="card card-accent-green">
+      <div class="card-icon-sm" style="background: rgba(16,185,129,0.1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Write-back cache disk</h3>
+      <p>Stores all runtime writes from the VM — in RAM, on disk, or both. For non-persistent VMs, the cache is discarded on reboot. For persistent VMs, changes accumulate over time.</p>
+    </div>
+    <div class="card card-accent-purple">
+      <div class="card-icon-sm" style="background: rgba(124,58,237,0.1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>Hypervisor API-driven</h3>
+      <p>MCS communicates with the underlying hypervisor or cloud platform via the Hosting Connection. No agent on the hypervisor is required — it uses native APIs (vSphere, Azure ARM, AWS EC2).</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; margin: 2.5rem 0 1rem; color: var(--white)">MCS vs PVS — when to choose which</h3>
+  <table class="compare-table">
+    <thead>
+      <tr><th>Factor</th><th>MCS</th><th>PVS</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Provisioning server required</td><td class="text-green">No — Controller handles it</td><td>Yes — dedicated PVS server</td></tr>
+      <tr><td>Network streaming</td><td class="text-muted">No — hypervisor API-based</td><td class="text-cyan">Yes — OS streamed over network</td></tr>
+      <tr><td>Cloud support (Azure/AWS/GCP)</td><td class="text-green">Full support</td><td class="text-muted">Limited / not native</td></tr>
+      <tr><td>Physical machine support</td><td class="text-muted">VMs only</td><td class="text-green">Physical + virtual</td></tr>
+      <tr><td>Setup complexity</td><td class="text-green">Lower</td><td>Higher</td></tr>
+      <tr><td>Best for new deployments</td><td class="text-green">✓ Recommended</td><td>Existing PVS estates only</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; margin: 2.5rem 0 1rem; color: var(--white)">Supported platforms</h3>
+  <div class="label" style="margin-top:0">On-premises hypervisors</div>
+  <div class="badge-row">
+    <span class="badge badge-cyan">VMware vSphere</span>
+    <span class="badge badge-cyan">Microsoft Hyper-V</span>
+    <span class="badge badge-cyan">Nutanix AHV</span>
+    <span class="badge badge-cyan">Citrix Hypervisor / XenServer</span>
+    <span class="badge badge-cyan">SCVMM</span>
+  </div>
+  <div class="label">Public cloud</div>
+  <div class="badge-row">
+    <span class="badge badge-purple">Microsoft Azure</span>
+    <span class="badge badge-purple">AWS EC2</span>
+    <span class="badge badge-purple">Google Cloud Platform</span>
+    <span class="badge badge-purple">VMware Cloud on AWS</span>
+  </div>
+</section>
+
+<!-- ─── 2. ARCHITECTURE ─── -->
+<section class="content-section" id="architecture">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(13,148,136,0.12); border:1px solid rgba(13,148,136,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>MCS Architecture</h2>
+      <p>Understanding the control plane, data plane, and how MCS integrates with the Citrix CVAD platform.</p>
+    </div>
+  </div>
+
+  <!-- Architecture SVG diagram -->
+  <div class="arch-diagram">
+    <svg viewBox="0 0 900 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+      <!-- Background grid -->
+      <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="900" height="420" fill="url(#grid)"/>
+
+      <!-- ── CONTROL PLANE ── -->
+      <text x="30" y="30" font-family="'JetBrains Mono'" font-size="10" fill="rgba(0,180,216,0.6)" letter-spacing="2">CONTROL PLANE</text>
+      <!-- Delivery Controller -->
+      <rect x="30" y="42" width="160" height="70" rx="10" fill="rgba(21,101,192,0.2)" stroke="rgba(21,101,192,0.5)" stroke-width="1.5"/>
+      <text x="110" y="70" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#90caf9" font-weight="600">Delivery Controller</text>
+      <text x="110" y="88" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(144,202,249,0.6)">Broker Service</text>
+      <text x="110" y="103" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(144,202,249,0.6)">MCS Service</text>
+
+      <!-- Citrix Studio -->
+      <rect x="210" y="42" width="140" height="70" rx="10" fill="rgba(0,180,216,0.12)" stroke="rgba(0,180,216,0.3)" stroke-width="1.5"/>
+      <text x="280" y="70" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#48cae4" font-weight="600">Citrix Studio /</text>
+      <text x="280" y="86" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#48cae4" font-weight="600">Web Studio</text>
+      <text x="280" y="103" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(72,202,228,0.6)">Admin Console</text>
+
+      <!-- SQL -->
+      <rect x="370" y="42" width="120" height="70" rx="10" fill="rgba(124,58,237,0.12)" stroke="rgba(124,58,237,0.3)" stroke-width="1.5"/>
+      <text x="430" y="76" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#c4b5fd" font-weight="600">Site DB</text>
+      <text x="430" y="93" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(196,181,253,0.6)">SQL Server</text>
+
+      <!-- Lines: Controller → Studio → SQL -->
+      <path d="M 190 77 L 210 77" stroke="rgba(0,180,216,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <path d="M 350 77 L 370 77" stroke="rgba(124,58,237,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- ── HYPERVISOR PLANE ── -->
+      <text x="520" y="30" font-family="'JetBrains Mono'" font-size="10" fill="rgba(16,185,129,0.6)" letter-spacing="2">HYPERVISOR / CLOUD</text>
+      <rect x="520" y="42" width="350" height="70" rx="10" fill="rgba(13,148,136,0.08)" stroke="rgba(13,148,136,0.25)" stroke-width="1.5"/>
+      <text x="695" y="68" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#6ee7b7" font-weight="600">Hosting Connection</text>
+      <text x="640" y="90" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.5)">vSphere API</text>
+      <text x="720" y="90" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.5)">Azure ARM</text>
+      <text x="810" y="90" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.5)">AWS EC2</text>
+      <!-- Arrow: Controller → Hosting -->
+      <path d="M 500 77 L 520 77" stroke="rgba(13,148,136,0.5)" stroke-width="1.5"/>
+      <polygon points="520,73 528,77 520,81" fill="rgba(13,148,136,0.7)"/>
+      <!-- Hosting connection label -->
+      <text x="510" y="70" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(13,148,136,0.5)">API</text>
+
+      <!-- Vertical connector: Control → Provisioned VMs -->
+      <path d="M 110 112 L 110 165" stroke="rgba(21,101,192,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <path d="M 695 112 L 695 165" stroke="rgba(13,148,136,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- ── MASTER IMAGE SECTION ── -->
+      <text x="30" y="157" font-family="'JetBrains Mono'" font-size="10" fill="rgba(245,158,11,0.6)" letter-spacing="2">MASTER IMAGE</text>
+      <rect x="30" y="168" width="170" height="80" rx="10" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)" stroke-width="1.5"/>
+      <text x="115" y="198" text-anchor="middle" font-family="'Syne'" font-size="13" fill="#fcd34d" font-weight="600">Golden Image VM</text>
+      <text x="115" y="215" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(252,211,77,0.6)">OS + VDA + Apps</text>
+      <text x="115" y="232" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(252,211,77,0.6)">Citrix Optimizer applied</text>
+
+      <!-- Snapshot -->
+      <rect x="220" y="168" width="130" height="80" rx="10" fill="rgba(245,158,11,0.05)" stroke="rgba(245,158,11,0.2)" stroke-width="1.5" stroke-dasharray="6 3"/>
+      <text x="285" y="202" text-anchor="middle" font-family="'Syne'" font-size="12" fill="rgba(252,211,77,0.8)" font-weight="600">Snapshot</text>
+      <text x="285" y="220" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(252,211,77,0.4)">Immutable reference</text>
+      <path d="M 200 208 L 220 208" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
+      <polygon points="218,204 226,208 218,212" fill="rgba(245,158,11,0.7)"/>
+
+      <!-- Arrow: Snapshot → Provisioned -->
+      <path d="M 285 248 L 285 290" stroke="rgba(245,158,11,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- ── PROVISIONED VMs ── -->
+      <text x="30" y="280" font-family="'JetBrains Mono'" font-size="10" fill="rgba(0,180,216,0.6)" letter-spacing="2">PROVISIONED MACHINES</text>
+      <!-- VM 1 -->
+      <rect x="30" y="292" width="110" height="90" rx="10" fill="rgba(0,180,216,0.08)" stroke="rgba(0,180,216,0.3)" stroke-width="1.5"/>
+      <text x="85" y="320" text-anchor="middle" font-family="'Syne'" font-size="11" fill="#48cae4" font-weight="600">VM — 001</text>
+      <text x="85" y="337" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">Base: shared</text>
+      <text x="85" y="352" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">ID disk: 16MB</text>
+      <text x="85" y="367" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">WBC: 10GB</text>
+      <!-- VM 2 -->
+      <rect x="155" y="292" width="110" height="90" rx="10" fill="rgba(0,180,216,0.08)" stroke="rgba(0,180,216,0.3)" stroke-width="1.5"/>
+      <text x="210" y="320" text-anchor="middle" font-family="'Syne'" font-size="11" fill="#48cae4" font-weight="600">VM — 002</text>
+      <text x="210" y="337" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">Base: shared</text>
+      <text x="210" y="352" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">ID disk: 16MB</text>
+      <text x="210" y="367" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="rgba(72,202,228,0.5)">WBC: 10GB</text>
+      <!-- VM 3 -->
+      <rect x="280" y="292" width="110" height="90" rx="10" fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.2)" stroke-width="1" stroke-dasharray="5 3"/>
+      <text x="335" y="330" text-anchor="middle" font-family="'Syne'" font-size="12" fill="rgba(72,202,228,0.5)" font-weight="600">VM — N</text>
+      <text x="335" y="350" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(72,202,228,0.3)">...scale out</text>
+      <!-- Dots -->
+      <text x="405" y="340" font-family="'Syne'" font-size="24" fill="rgba(0,180,216,0.3)">···</text>
+
+      <!-- Shared base disk label -->
+      <rect x="30" y="392" width="360" height="22" rx="5" fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.15)" stroke-width="1"/>
+      <text x="210" y="408" text-anchor="middle" font-family="'JetBrains Mono'" font-size="10" fill="rgba(0,180,216,0.5)">Shared read-only base disk  (all VMs read from same snapshot)</text>
+
+      <!-- Lines: Snapshot → VMs -->
+      <path d="M 285 280 L 85 292" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M 285 280 L 210 292" stroke="rgba(245,158,11,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M 285 280 L 335 292" stroke="rgba(245,158,11,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- ── USERS ── -->
+      <text x="520" y="157" font-family="'JetBrains Mono'" font-size="10" fill="rgba(124,58,237,0.6)" letter-spacing="2">USERS & PROFILES</text>
+
+      <!-- FSLogix / Profile -->
+      <rect x="520" y="168" width="170" height="80" rx="10" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.25)" stroke-width="1.5"/>
+      <text x="605" y="198" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#c4b5fd" font-weight="600">FSLogix Profiles</text>
+      <text x="605" y="216" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(196,181,253,0.5)">Profile Container (VHD)</text>
+      <text x="605" y="232" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(196,181,253,0.5)">\\fileserver\profiles</text>
+
+      <!-- Citrix Broker -->
+      <rect x="710" y="168" width="150" height="80" rx="10" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.25)" stroke-width="1.5"/>
+      <text x="785" y="198" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#6ee7b7" font-weight="600">Broker / DDC</text>
+      <text x="785" y="216" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.5)">Session brokering</text>
+      <text x="785" y="232" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.5)">VDA registration</text>
+
+      <!-- Users -->
+      <rect x="520" y="292" width="340" height="70" rx="10" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.2)" stroke-width="1.5"/>
+      <text x="690" y="323" text-anchor="middle" font-family="'Syne'" font-size="12" fill="#6ee7b7" font-weight="600">End Users</text>
+      <text x="690" y="342" text-anchor="middle" font-family="'Instrument Sans'" font-size="10" fill="rgba(110,231,183,0.4)">Citrix Workspace / Receiver  →  ICA/HDX session  →  VM</text>
+
+      <!-- Lines: Broker → VMs & Users -->
+      <path d="M 785 248 L 785 270 L 550 292" stroke="rgba(16,185,129,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <path d="M 605 248 L 605 292" stroke="rgba(124,58,237,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- Cross-plane connection -->
+      <path d="M 500 77 Q 500 200 520 208" stroke="rgba(21,101,192,0.3)" stroke-width="1" stroke-dasharray="4 3"/>
+    </svg>
+  </div>
+
+  <div class="info-box tip">
+    <strong>Key insight</strong>
+    The Delivery Controller's MCS service is the orchestrator — it receives provisioning instructions from Studio, translates them into hypervisor API calls (e.g., clone VM, attach disk, create AD account), and tracks the state of all provisioned machines in the Site Database.
+  </div>
+</section>
+
+<!-- ─── 3. CATALOG TYPES ─── -->
+<section class="content-section" id="catalog-types">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Machine catalog types</h2>
+      <p>Choosing the right catalog type is the single most important design decision in an MCS deployment. Each type has distinct storage, performance, and management implications.</p>
+    </div>
+  </div>
+
+  <!-- Type 1: Non-persistent -->
+  <div class="card" style="margin-bottom: 16px; border-color: rgba(0,180,216,0.2); background: linear-gradient(135deg, rgba(0,180,216,0.05) 0%, transparent 60%);">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1rem;">
+      <div style="background:rgba(0,180,216,0.15); border-radius:10px; padding: 10px 16px; font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; color:var(--cyan)">01</div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; color:var(--white); margin-bottom:2px">Non-persistent / Pooled Random</h3>
+        <span class="badge badge-green" style="font-size:11px">Recommended for most deployments</span>
+      </div>
+    </div>
+    <p style="font-size:14px; color: var(--text-muted); margin-bottom: 1.25rem;">Every session gets a clean VM. On logoff or reboot the VM resets to the master image state — all writes are discarded. User data and settings are preserved separately via profile management.</p>
+    <div class="label" style="margin-top:0">Write-back cache options</div>
+    <div class="mini-grid">
+      <div class="mini-card"><div class="mini-card-title">RAM only</div><div class="mini-card-body">Fastest. Lost on reboot. Use for short sessions with very low write activity.</div></div>
+      <div class="mini-card" style="border-color: rgba(0,180,216,0.3)"><div class="mini-card-title" style="color:var(--cyan)">RAM + disk overflow ✓</div><div class="mini-card-body">Recommended. RAM absorbs bursts; disk handles overflow. Cleared on reboot.</div></div>
+      <div class="mini-card"><div class="mini-card-title">Disk only</div><div class="mini-card-body">Use when RAM is constrained. Slower but reliable. No crash risk from RAM exhaustion.</div></div>
+    </div>
+    <div class="label">Best for</div>
+    <div class="badge-row"><span class="badge badge-cyan">Task workers</span><span class="badge badge-cyan">Call centres</span><span class="badge badge-cyan">Shared desktops</span><span class="badge badge-cyan">Published apps (RDSH)</span><span class="badge badge-cyan">Kiosk / hot-desk</span></div>
+    <div class="info-box tip" style="margin-top:1rem"><strong>Mandatory companion</strong>FSLogix Profile Containers are required with non-persistent VMs. Without profile management, all user settings, Outlook cache, browser data, and Teams/OneDrive state are lost on every reboot.</div>
+  </div>
+
+  <!-- Type 2: Persistent -->
+  <div class="card" style="margin-bottom: 16px; border-color: rgba(124,58,237,0.2); background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, transparent 60%);">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1rem;">
+      <div style="background:rgba(124,58,237,0.15); border-radius:10px; padding: 10px 16px; font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; color:#c4b5fd">02</div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; color:var(--white); margin-bottom:2px">Persistent / Static Assigned</h3>
+        <span class="badge badge-amber" style="font-size:11px">Use only where required</span>
+      </div>
+    </div>
+    <p style="font-size:14px; color: var(--text-muted); margin-bottom: 1.25rem;">Each user is permanently assigned to their own VM. Writes persist to the VM's difference disk — the machine builds up a personal state over time. Requires more storage and complex patching.</p>
+    <div class="label" style="margin-top:0">Best for</div>
+    <div class="badge-row"><span class="badge badge-purple">Power users</span><span class="badge badge-purple">Developers</span><span class="badge badge-purple">Users who install custom apps</span><span class="badge badge-purple">Legacy apps requiring local state</span></div>
+    <div class="info-box warn" style="margin-top:1rem"><strong>Storage warning</strong>Persistent VMs consume significantly more storage — each VM accumulates a growing difference disk. Patching is complex: each VM must be patched individually rather than updating a shared master image. Evaluate carefully before choosing this type.</div>
+  </div>
+
+  <!-- Type 3: MCS IO -->
+  <div class="card" style="border-color: rgba(16,185,129,0.2); background: linear-gradient(135deg, rgba(16,185,129,0.04) 0%, transparent 60%);">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1rem;">
+      <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding: 10px 16px; font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; color:#6ee7b7">03</div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif; font-size:1.15rem; color:var(--white); margin-bottom:2px">MCS I/O Optimisation (Storage Optimisation)</h3>
+        <span class="badge badge-green" style="font-size:11px">Enable for all non-persistent catalogs</span>
+      </div>
+    </div>
+    <p style="font-size:14px; color: var(--text-muted); margin-bottom: 1.25rem;">An enhancement to non-persistent MCS that uses a shared read-only base disk, dramatically reducing storage consumption and eliminating redundant I/O during boot storms.</p>
+    <div class="mini-grid" style="margin-top: 1rem;">
+      <div class="mini-card"><div class="mini-card-title">Without MCS I/O</div><div class="mini-card-body">100 VMs × 60 GB OS disk = 6 TB storage. Each VM has a full OS disk copy.</div></div>
+      <div class="mini-card" style="border-color: rgba(16,185,129,0.3)"><div class="mini-card-title" style="color:var(--green)">With MCS I/O ✓</div><div class="mini-card-body">~60 GB shared base + thin WBC per VM. 90%+ storage reduction for large catalogs.</div></div>
+    </div>
+    <div class="info-box tip" style="margin-top:1rem"><strong>Requirement</strong>MCS I/O driver must be installed on the master image (select during VDA installation). Enabled at catalog creation time — cannot be retroactively applied to existing catalogs.</div>
+  </div>
+</section>
+
+<!-- ─── 4. PREREQUISITES ─── -->
+<section class="content-section" id="prereqs">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Prerequisites &amp; preparation</h2>
+      <p>Get these right before creating your first catalog — skipping any step causes provisioning failures or degraded performance.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin-bottom:1rem">Master image preparation checklist</h3>
+  <ul class="checklist">
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Install and fully patch the Windows OS (Server 2022 for RDSH, Windows 11 for VDI). Join the domain before installing the VDA.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Install the correct VDA type: Server OS VDA for RDSH multi-session; Desktop OS VDA for single-session VDI.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Select "MCS I/O" driver during VDA installation if using storage optimisation (recommended).</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Run Citrix Optimizer — select the correct OS + VDA version template. This disables unnecessary services and reduces resource consumption.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Disable Windows Update on the image — manage patching via WSUS or by updating and re-snapshotting the golden image.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Install all required applications and configure them to the desired baseline state.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Clear event logs, temp files (%TEMP%, C:\Windows\Temp), and browser caches before snapshot.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div><strong style="color:var(--amber)">Do NOT run Sysprep</strong> — MCS handles machine identity via the identity disk. Sysprep is not required and may break VDA registration.</li>
+    <li><div class="check"><svg viewBox="0 0 12 12" stroke-width="2" fill="none"><polyline points="2,6 5,9 10,3"/></svg></div>Shut down cleanly before taking the hypervisor snapshot. Never snapshot a running VM for MCS use.</li>
+  </ul>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin: 2rem 0 1rem">Active Directory &amp; OU preparation</h3>
+  <div class="card-grid card-grid-2">
+    <div class="card card-accent-amber">
+      <h3>Dedicated MCS OU structure</h3>
+      <p>Create dedicated OUs for MCS-managed machines. Recommended structure:</p>
+      <div class="code-block" style="margin-top: 0.75rem;">
+        <pre>domain.com/
+  Citrix/
+    MCS-Pooled/       ← non-persistent VMs
+    MCS-Persistent/   ← static assigned VMs
+    MCS-RDSH/         ← server OS catalogs</pre>
+      </div>
+    </div>
+    <div class="card card-accent-amber">
+      <h3>Required AD permissions on MCS OU</h3>
+      <p>The Delivery Controller service account must have these permissions on the MCS OU:</p>
+      <div class="code-block" style="margin-top: 0.75rem;">
+        <pre>Create Computer objects
+Delete Computer objects
+Write all properties
+Reset password (computer accounts)
+Read permissions</pre>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin: 2rem 0 1rem">Network &amp; hosting connection requirements</h3>
+  <table class="compare-table">
+    <thead><tr><th>Connection</th><th>Protocol / Port</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Delivery Controller → Hypervisor</td><td>TCP 443</td><td>vSphere API / Azure ARM — provisioning calls</td></tr>
+      <tr><td>Provisioned VMs → Domain Controllers</td><td>TCP/UDP 389, 88, 636</td><td>LDAP, Kerberos — domain join &amp; authentication</td></tr>
+      <tr><td>Provisioned VMs → Delivery Controller</td><td>TCP 80, 443</td><td>VDA registration with the Broker Service</td></tr>
+      <tr><td>Provisioned VMs → FSLogix file share</td><td>TCP 445 (SMB)</td><td>Profile VHD mount on session start</td></tr>
+      <tr><td>Users → StoreFront / Workspace</td><td>TCP 443</td><td>Session launch — Citrix ICA/HDX</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── 5. PROVISIONING ─── -->
+<section class="content-section" id="provisioning">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(0,180,216,0.12); border:1px solid rgba(0,180,216,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Creating a machine catalog</h2>
+      <p>Step-by-step walkthrough of the Citrix Studio wizard and its PowerShell equivalent.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin-bottom:1.25rem">Studio wizard — step by step</h3>
+  <div class="flow-steps" style="flex-direction: column; align-items: stretch; gap: 4px;">
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>Operating system type</h3>
+        <p><strong style="color:var(--white)">Server OS</strong> = Windows Server (RDSH multi-session apps/desktops). <strong style="color:var(--white)">Desktop OS</strong> = Windows 10/11 (single-session VDI). This determines the VDA type required and the Citrix license consumed per session.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>Machine management</h3>
+        <p>Select <strong style="color:var(--white)">"Machines that are power managed"</strong> → <strong style="color:var(--white)">"Citrix Machine Creation Services"</strong>. Choose the hosting connection (vSphere / Azure / etc) that MCS will use to call the hypervisor API.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>Desktop experience (allocation type)</h3>
+        <p><strong style="color:var(--white)">Pooled-random</strong> = non-persistent (recommended). <strong style="color:var(--white)">Static</strong> = persistent. This controls whether <code style="font-family:'JetBrains Mono'; font-size:12px; color:var(--cyan-light)">CleanOnBoot</code> is set on the provisioning scheme — it cannot be changed after catalog creation.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(245,158,11,0.25); color:#fcd34d; font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+        <div style="flex:1;width:1px;background:rgba(245,158,11,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px; border-color: rgba(245,158,11,0.2)">
+        <h3>Master image selection <span style="color:var(--amber); font-size:12px;">— critical step</span></h3>
+        <p>Select the <strong style="color:var(--amber)">snapshot</strong>, not the live VM. MCS stores a reference to the snapshot path in the Site DB. If you later delete the snapshot from the hypervisor, catalog updates will fail. Always keep at least 2 previous snapshots.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>Storage &amp; MCS I/O</h3>
+        <p>Select datastores for OS disk and write-back cache (can be separate — recommended). Enable <strong style="color:var(--cyan)">MCS I/O Optimisation</strong> here. For vSphere, choose storage profiles if using vSAN storage policies. Set WBC disk size (10–40 GB) and RAM cache size (256 MB–1 GB).</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>VM size &amp; count</h3>
+        <p>Set vCPU count and RAM per VM. Specify how many VMs to provision. Note: you can add more machines later — provisioning more upfront is not required.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:stretch; gap: 12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0">
+        <div style="background:rgba(0,180,216,0.2); color:var(--cyan); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">7</div>
+        <div style="flex:1;width:1px;background:rgba(0,180,216,0.2);margin:4px 0;"></div>
+      </div>
+      <div class="card" style="flex:1; margin-bottom:4px">
+        <h3>AD machine accounts &amp; naming scheme</h3>
+        <p>Select the target OU for machine computer accounts. Define the naming scheme (e.g., <code style="font-family:'JetBrains Mono'; font-size:12px; color:var(--cyan-light)">VDI-###</code>). MCS will auto-create and manage AD computer accounts — no manual pre-staging required.</p>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap: 12px;">
+      <div style="background:rgba(16,185,129,0.2); color:var(--green); font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✓</div>
+      <div class="card" style="flex:1; border-color: rgba(16,185,129,0.2)">
+        <h3 style="color:var(--green)">Summary &amp; provision</h3>
+        <p>Review all settings. MCS creates VMs in the hypervisor. VMs do not register with the Broker until first power-on, when the VDA contacts the Delivery Controller and completes registration.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin: 2.5rem 0 1rem">PowerShell provisioning — complete script</h3>
+  <div class="code-block">
+    <div class="code-label">PowerShell / CVAD SDK — full catalog creation</div>
+    <pre>Add-PSSnapin Citrix.* -ErrorAction SilentlyContinue
+
+# 1. Create identity pool (defines AD account creation settings)
+$idPool = New-AcctIdentityPool `
+  -IdentityPoolName "VDI-Pool-01" `
+  -NamingScheme "VDI-###" `
+  -NamingSchemeType Numeric `
+  -OU "OU=MCS-Pooled,DC=domain,DC=com" `
+  -Domain "domain.com"
+
+Write-Host "Identity pool created: $($idPool.IdentityPoolName)"
+
+# 2. Create provisioning scheme (links to master image snapshot)
+$provTask = New-ProvScheme `
+  -ProvisioningSchemeName "VDI-Pool-01" `
+  -HostingUnitName "vSphere-Cluster01" `
+  -MasterImageVM "XDHyp:\HostingUnits\vSphere-Cluster01\MasterVMs\Win11-Gold.vm\Snap-2025-05.snapshot" `
+  -VMCpuCount 2 `
+  -VMMemoryMB 4096 `
+  -CleanOnBoot `                       # non-persistent: reset writes on reboot
+  -UseWriteBackCache `
+  -WriteBackCacheDiskSize 20 `         # GB
+  -WriteBackCacheMemorySize 512 `      # MB RAM cache
+  -RunAsynchronously
+
+# Wait for scheme creation to complete
+while ((Get-ProvTask -TaskId $provTask.TaskId).Active) {
+    Write-Host "Creating provisioning scheme..."
+    Start-Sleep -Seconds 5
+}
+
+$provScheme = Get-ProvScheme -ProvisioningSchemeName "VDI-Pool-01"
+
+# 3. Create the broker catalog
+$catalog = New-BrokerCatalog `
+  -Name "VDI-Pool-01" `
+  -AllocationType Random `             # Pooled-random = non-persistent
+  -PersistUserChanges Discard `        # Discard writes on reboot
+  -ProvisioningSchemeId $provScheme.ProvisioningSchemeUid `
+  -SessionSupport SingleSession `      # SingleSession for VDI, MultiSession for RDSH
+  -MachineType Virtual
+
+# 4. Create AD computer accounts
+Write-Host "Creating AD accounts..."
+$adAccounts = New-AcctADAccount `
+  -IdentityPoolName "VDI-Pool-01" `
+  -Count 20
+
+Write-Host "Created $($adAccounts.SuccessfulAccounts.Count) AD accounts"
+
+# 5. Provision VMs in the hypervisor
+$provTask = New-ProvVM `
+  -ProvisioningSchemeName "VDI-Pool-01" `
+  -ADAccountName $adAccounts.SuccessfulAccounts `
+  -RunAsynchronously
+
+while ((Get-ProvTask -TaskId $provTask.TaskId).Active) {
+    $task = Get-ProvTask -TaskId $provTask.TaskId
+    Write-Host "Provisioning VMs... $($task.TerminatingError)"
+    Start-Sleep -Seconds 10
+}
+
+# 6. Register provisioned VMs with the Broker
+$provVMs = Get-ProvVM -ProvisioningSchemeName "VDI-Pool-01"
+foreach ($vm in $provVMs) {
+    New-BrokerMachine `
+      -CatalogUid $catalog.Uid `
+      -MachineName $vm.ADAccountName
+}
+
+Write-Host "Done! $($provVMs.Count) VMs provisioned and registered."</pre>
+  </div>
+</section>
+
+<!-- ─── 6. IMAGE UPDATES ─── -->
+<section class="content-section" id="updates">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Updating the master image</h2>
+      <p>Rolling out image updates is the most frequent MCS maintenance task. Understanding the pipeline prevents outages.</p>
+    </div>
+  </div>
+
+  <div class="visual-banner" style="background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, transparent 80%); border: 1px solid rgba(16,185,129,0.15); margin-bottom: 2rem;">
+    <div class="label" style="margin-top:0; color: var(--green)">Image update pipeline</div>
+    <div class="flow-steps" style="margin-top: 1rem;">
+      <div class="flow-step" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#6ee7b7"><span class="step-num" style="background:rgba(16,185,129,0.2); color:#6ee7b7">1</span>Update master VM</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#6ee7b7"><span class="step-num" style="background:rgba(16,185,129,0.2); color:#6ee7b7">2</span>Shut down &amp; snapshot</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#6ee7b7"><span class="step-num" style="background:rgba(16,185,129,0.2); color:#6ee7b7">3</span>Update catalog in Studio</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#6ee7b7"><span class="step-num" style="background:rgba(16,185,129,0.2); color:#6ee7b7">4</span>Rollout to VMs</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2); color:#6ee7b7"><span class="step-num" style="background:rgba(16,185,129,0.2); color:#6ee7b7">5</span>VMs reboot with new image</div>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-3" style="margin-bottom: 1.5rem;">
+    <div class="card card-accent-green">
+      <h3>On next shutdown <span class="badge badge-green" style="font-size:10px; vertical-align:middle">Recommended</span></h3>
+      <p>VMs get the updated image on their next natural reboot. Zero immediate disruption to active sessions. Ideal for production environments.</p>
+    </div>
+    <div class="card card-accent-amber">
+      <h3>Scheduled rollout</h3>
+      <p>Schedule Studio to force reboots during a maintenance window (e.g., 2 AM Sunday). Session drain + reboot in controlled waves.</p>
+    </div>
+    <div class="card card-accent-orange">
+      <h3>Immediate (force)</h3>
+      <p>Studio forces VMs off immediately. <strong style="color:var(--orange)">Terminates all active sessions.</strong> Use only in emergency maintenance windows.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin: 2rem 0 1rem">Rollback — reverting to a previous image</h3>
+  <p style="color:var(--text-muted); font-size:14px; margin-bottom:1rem">Because MCS uses snapshots as its source, rolling back is simply pointing the catalog back to the previous snapshot — no data migration, no re-provisioning. The fastest rollback in the business.</p>
+
+  <div class="code-block">
+    <div class="code-label">PowerShell — rollback and automated image update</div>
+    <pre># ── ROLLBACK to previous snapshot ──
+Set-ProvScheme `
+  -ProvisioningSchemeName "VDI-Pool-01" `
+  -MasterImageVM "XDHyp:\HostingUnits\vSphere\MasterVMs\Win11.vm\Snap-2025-04.snapshot"
+
+Write-Host "Rollback staged. VMs will use previous image on next reboot."
+
+# ── AUTOMATED UPDATE SCRIPT ──
+param(
+  [string]$CatalogName  = "VDI-Pool-01",
+  [string]$NewSnapshot  = "XDHyp:\HostingUnits\vSphere\MasterVMs\Win11.vm\Snap-2025-05.snapshot"
+)
+
+Add-PSSnapin Citrix.* -ErrorAction SilentlyContinue
+
+# Stage the new image
+Set-ProvScheme -ProvisioningSchemeName $CatalogName -MasterImageVM $NewSnapshot
+Write-Host "[$(Get-Date -f 'HH:mm:ss')] New image staged: $NewSnapshot"
+
+# Get all idle machines not already in maintenance
+$machines = Get-BrokerMachine -CatalogName $CatalogName |
+  Where-Object { $_.SessionCount -eq 0 -and -not $_.InMaintenanceMode }
+
+Write-Host "[$(Get-Date -f 'HH:mm:ss')] Found $($machines.Count) idle machines — initiating rollout"
+
+foreach ($m in $machines) {
+    Set-BrokerMachineMaintenanceMode -InputObject $m -MaintenanceMode $true
+    New-BrokerHostingPowerAction -MachineName $m.DNSName -Action Restart
+    Write-Host "  → Restarting $($m.MachineName)"
+    Start-Sleep -Seconds 3
+}
+
+Write-Host "[$(Get-Date -f 'HH:mm:ss')] Rollout complete. Monitor with:"
+Write-Host "  Get-BrokerMachine -CatalogName $CatalogName | Group-Object ImageOutOfDate"</pre>
+  </div>
+
+  <div class="info-box warn">
+    <strong>Snapshot retention policy</strong>
+    Keep a minimum of 2 previous snapshots before deleting old ones. Never delete a snapshot referenced by an active provisioning scheme — MCS cannot stage updates without the source snapshot, and the deletion is irreversible.
+  </div>
+</section>
+
+<!-- ─── 7. WRITE-BACK CACHE ─── -->
+<section class="content-section" id="cache">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Write-back cache deep dive</h2>
+      <p>Write-back cache (WBC) is central to non-persistent MCS performance. Misconfiguration is the most common cause of session crashes and performance problems.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color: rgba(249,115,22,0.2); margin-bottom: 1.5rem;">
+    <div class="label" style="margin-top:0; color:var(--orange)">How write-back cache works</div>
+    <div class="flow-steps" style="margin: 1rem 0;">
+      <div class="flow-step" style="background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.2); color:#fdba74">VM writes data</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.2); color:#fdba74">Intercepted by MCS I/O driver</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.2); color:#fdba74">Stored in RAM cache first</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.2); color:#fdba74">Overflow to WBC disk if RAM fills</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="background:rgba(249,115,22,0.08); border-color:rgba(249,115,22,0.2); color:#fdba74">Discarded on VM reboot</div>
+    </div>
+    <p style="font-size:13px; color:var(--text-muted)">Base disk remains read-only throughout the session. The MCS I/O driver transparently merges reads from the base disk with writes from the cache, making it invisible to the OS.</p>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin-bottom:1rem">Sizing guidance</h3>
+  <div class="mini-grid">
+    <div class="mini-card" style="border-color: rgba(249,115,22,0.2)">
+      <div class="mini-card-title" style="color:var(--orange)">RAM cache</div>
+      <div class="mini-card-body">256 MB – 1,024 MB. Start with 256 MB for task workers, 512 MB for knowledge workers. Increase if you see elevated disk write latency during sessions.</div>
+    </div>
+    <div class="mini-card" style="border-color: rgba(249,115,22,0.2)">
+      <div class="mini-card-title" style="color:var(--orange)">Disk cache</div>
+      <div class="mini-card-body">10–40 GB per VM. Task workers: 10–15 GB. Knowledge workers: 20–30 GB. Add 15 GB if Windows Update may run during sessions.</div>
+    </div>
+    <div class="mini-card" style="border-color: rgba(249,115,22,0.2)">
+      <div class="mini-card-title" style="color:var(--orange)">Cache disk storage</div>
+      <div class="mini-card-body">Place on SSD or NVMe datastore. WBC is write-intensive — spinning disk causes severe performance degradation at scale.</div>
+    </div>
+    <div class="mini-card" style="border-color: rgba(249,115,22,0.2)">
+      <div class="mini-card-title" style="color:var(--orange)">vSAN consideration</div>
+      <div class="mini-card-body">Set Flash Read Cache Reservation = 0% for WBC disk storage policy. WBC is write-heavy; read caching provides no benefit.</div>
+    </div>
+  </div>
+
+  <div class="info-box danger" style="margin-top: 1.5rem;">
+    <strong>Critical risk</strong>
+    If the RAM cache fills and the overflow disk also fills completely, the VM session will crash immediately with no warning. Monitor WBC utilisation proactively — alert at 70% disk usage. Proactive reboots of idle non-persistent VMs clear the cache and reset the counter.
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">Monitor WBC utilisation across all VMs</div>
+    <pre># Report WBC disk utilisation per VM — sort by highest usage
+Get-ProvVM -ProvisioningSchemeName "VDI-Pool-01" | ForEach-Object {
+    $vmName = $_.VMName
+    $wbcDisk = Get-ProvDisk -VMName $vmName |
+               Where-Object { $_.IsWriteBackCacheDisk }
+    if ($wbcDisk) {
+        [PSCustomObject]@{
+            VMName      = $vmName
+            TotalGB     = [math]::Round($wbcDisk.DiskSize / 1GB, 1)
+            UsedGB      = [math]::Round($wbcDisk.InUse / 1GB, 1)
+            FreeGB      = [math]::Round(($wbcDisk.DiskSize - $wbcDisk.InUse) / 1GB, 1)
+            UsedPct     = [math]::Round($wbcDisk.InUse / $wbcDisk.DiskSize * 100, 1)
+        }
+    }
+} | Sort-Object UsedPct -Descending | Format-Table -AutoSize</pre>
+  </div>
+</section>
+
+<!-- ─── 8. TROUBLESHOOTING ─── -->
+<section class="content-section" id="troubleshoot">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Troubleshooting common issues</h2>
+      <p>Structured diagnostic approach to the most frequent MCS failures — from provisioning errors to VDA registration problems.</p>
+    </div>
+  </div>
+
+  <div class="accordion" id="troubleshoot-accordion">
+
+    <div class="acc-item" id="acc-0">
+      <div class="acc-header" onclick="toggleAcc(0)">
+        <div class="acc-num" style="background:rgba(239,68,68,0.15); color:#f87171">01</div>
+        <div class="acc-title">VMs provisioned but not registering — "Unregistered" state</div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body" id="acc-body-0">
+        <div class="acc-body-inner">
+          <div class="label" style="margin-top:0">Diagnostic command</div>
+          <div class="code-block"><pre>Get-BrokerMachine -CatalogName "VDI-Pool-01" |
+  Select MachineName, RegistrationState, LastDeregistrationReason |
+  Format-Table -AutoSize</pre></div>
+          <div class="label">Common causes &amp; fixes</div>
+          <div class="mini-grid">
+            <div class="mini-card"><div class="mini-card-title">Firewall blocking</div><div class="mini-card-body">TCP 80/443 must be open from VM to Delivery Controller. Check Windows Firewall and network ACLs.</div></div>
+            <div class="mini-card"><div class="mini-card-title">DNS resolution failure</div><div class="mini-card-body">VM cannot resolve Controller FQDN. Test: nslookup &lt;controller-fqdn&gt; from inside the VM.</div></div>
+            <div class="mini-card"><div class="mini-card-title">VDA version mismatch</div><div class="mini-card-body">VDA must be equal to or newer than the Controller's minimum supported version. Update VDA on master image and reprovision.</div></div>
+            <div class="mini-card"><div class="mini-card-title">ListOfDDCs misconfigured</div><div class="mini-card-body">Check registry: HKLM\SOFTWARE\Citrix\VirtualDesktopAgent — ListOfDDCs must contain correct Controller FQDNs.</div></div>
+          </div>
+          <div class="info-box tip">Key log location on the VM: Event Viewer → Applications and Services Logs → Citrix → Virtual Desktop Agent. Event ID 1004 = Registered successfully. Event ID 1012 = Registration failed (reason in detail).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc-1">
+      <div class="acc-header" onclick="toggleAcc(1)">
+        <div class="acc-num" style="background:rgba(239,68,68,0.15); color:#f87171">02</div>
+        <div class="acc-title">Catalog update fails — "master image not found" or "snapshot path invalid"</div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body" id="acc-body-1">
+        <div class="acc-body-inner">
+          <p>The snapshot referenced by the provisioning scheme has been deleted from the hypervisor. MCS cannot stage the update because the source no longer exists.</p>
+          <div class="code-block"><pre># Identify what snapshot the scheme currently references
+Get-ProvScheme -ProvisioningSchemeName "VDI-Pool-01" |
+  Select ProvisioningSchemeName, MasterImageVM
+
+# Point to a valid existing snapshot
+Set-ProvScheme `
+  -ProvisioningSchemeName "VDI-Pool-01" `
+  -MasterImageVM "XDHyp:\HostingUnits\vSphere\MasterVMs\Win11.vm\ValidSnap.snapshot"</pre></div>
+          <div class="info-box warn"><strong>Prevention</strong>Never delete a hypervisor snapshot that is referenced by an active MCS provisioning scheme. The snapshot reference is stored in the Site DB — deletion on the hypervisor side does not auto-update the reference. Keep 2+ old snapshots before deleting any.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc-2">
+      <div class="acc-header" onclick="toggleAcc(2)">
+        <div class="acc-num" style="background:rgba(239,68,68,0.15); color:#f87171">03</div>
+        <div class="acc-title">Boot storm — VMs taking too long to provision or boot</div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body" id="acc-body-1">
+        <div class="acc-body-inner">
+          <p>Simultaneous VM provisioning or power-on saturates storage IOPS, causing long delays and potential timeouts.</p>
+          <div class="mini-grid">
+            <div class="mini-card" style="border-color:rgba(0,180,216,0.3)"><div class="mini-card-title" style="color:var(--cyan)">Enable MCS I/O optimisation</div><div class="mini-card-body">Shared read base eliminates duplicate OS disk reads. Single biggest improvement for boot storm reduction.</div></div>
+            <div class="mini-card"><div class="mini-card-title">Stagger power-on</div><div class="mini-card-body">Use power management schedules to power VMs on in waves (e.g., 10 VMs every 30 seconds), not all simultaneously.</div></div>
+            <div class="mini-card"><div class="mini-card-title">Separate datastores</div><div class="mini-card-body">Put OS base disks and WBC disks on different datastores or storage tiers to distribute IOPS load.</div></div>
+            <div class="mini-card"><div class="mini-card-title">Pre-launch in advance</div><div class="mini-card-body">Use Delivery Group power management to boot VMs 30–60 minutes before peak hours so they are warm when users connect.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc-3">
+      <div class="acc-header" onclick="toggleAcc(3)">
+        <div class="acc-num" style="background:rgba(239,68,68,0.15); color:#f87171">04</div>
+        <div class="acc-title">Non-persistent VMs not resetting on reboot — writes persisting</div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body" id="acc-body-3">
+        <div class="acc-body-inner">
+          <p>The CleanOnBoot flag is not set on the provisioning scheme, or the MCS I/O driver is not installed on the master image.</p>
+          <div class="code-block"><pre># Verify CleanOnBoot setting
+Get-ProvScheme -ProvisioningSchemeName "VDI-Pool-01" |
+  Select ProvisioningSchemeName, CleanOnBoot
+
+# Verify MCS I/O driver in Device Manager on master VM:
+# Device Manager → Citrix MCS Storage Driver must be present
+
+# CleanOnBoot CANNOT be changed on existing schemes.
+# You must create a new catalog with the correct setting.</pre></div>
+          <div class="info-box danger"><strong>Cannot change in-place</strong>CleanOnBoot cannot be modified on an existing provisioning scheme. If set incorrectly, create a new catalog with the correct setting, migrate the Delivery Group, then decommission the old catalog.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc-4">
+      <div class="acc-header" onclick="toggleAcc(4)">
+        <div class="acc-num" style="background:rgba(239,68,68,0.15); color:#f87171">05</div>
+        <div class="acc-title">Session crashes — "No disk space" or VM becomes unresponsive</div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body" id="acc-body-4">
+        <div class="acc-body-inner">
+          <p>The write-back cache disk has reached capacity. When both RAM and disk cache are exhausted, the VM session crashes immediately with no user warning.</p>
+          <div class="code-block"><pre># Identify VMs with high WBC disk utilisation
+Get-ProvVM -ProvisioningSchemeName "VDI-Pool-01" | ForEach-Object {
+    $d = Get-ProvDisk -VMName $_.VMName |
+         Where-Object { $_.IsWriteBackCacheDisk }
+    if ($d) {
+        [PSCustomObject]@{
+            VM      = $_.VMName
+            UsedPct = [math]::Round($d.InUse / $d.DiskSize * 100, 1)
+            FreeGB  = [math]::Round(($d.DiskSize - $d.InUse) / 1GB, 1)
+        }
+    }
+} | Where-Object { $_.UsedPct -gt 70 } | Sort-Object UsedPct -Descending</pre></div>
+          <p style="margin-top: 1rem; font-size: 13px; color:var(--text-muted)"><strong style="color:var(--white)">Immediate fix:</strong> Reboot idle sessions to clear the WBC disk. <strong style="color:var(--white)">Long-term fix:</strong> Increase WBC disk size in the provisioning scheme and re-provision affected VMs, or investigate what process is generating excessive writes (Windows Update, antivirus scans).</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── 9. POWERSHELL REFERENCE ─── -->
+<section class="content-section" id="powershell">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(21,101,192,0.12); border:1px solid rgba(21,101,192,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1e88e5" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>PowerShell / CVAD SDK reference</h2>
+      <p>Essential commands for day-to-day MCS operations. Load snapins first: <code style="font-family:'JetBrains Mono'; font-size:13px; color:var(--cyan-light); background:rgba(0,180,216,0.08); padding: 2px 6px; border-radius:4px">Add-PSSnapin Citrix.*</code></p>
+    </div>
+  </div>
+
+  <div class="ps-grid">
+    <div>
+      <div class="label" style="margin-top:0">Inventory &amp; status</div>
+      <div class="code-block"><pre># All catalogs — key properties
+Get-BrokerCatalog | Select Name,
+  AllocationType, SessionSupport,
+  UnregisteredCount, TotalCount
+
+# VMs in a catalog — state overview
+Get-BrokerMachine -CatalogName "VDI-Pool-01" |
+  Select MachineName, RegistrationState,
+  PowerState, SessionCount
+
+# Provisioning scheme details
+Get-ProvScheme | Select ProvisioningSchemeName,
+  MasterImageVM, VMCpuCount,
+  VMMemoryMB, CleanOnBoot
+
+# Group machines by state
+Get-BrokerMachine -CatalogName "VDI-Pool-01" |
+  Group-Object RegistrationState |
+  Select Name, Count</pre></div>
+
+      <div class="label">Add machines</div>
+      <div class="code-block"><pre># Create AD accounts
+$accts = New-AcctADAccount `
+  -IdentityPoolName "VDI-Pool-01" -Count 5
+
+# Provision VMs
+New-ProvVM `
+  -ProvisioningSchemeName "VDI-Pool-01" `
+  -ADAccountName $accts.SuccessfulAccounts
+
+# Register with broker
+$cat = Get-BrokerCatalog -Name "VDI-Pool-01"
+Get-ProvVM -ProvisioningSchemeName "VDI-Pool-01" |
+  ForEach-Object {
+    New-BrokerMachine `
+      -CatalogUid $cat.Uid `
+      -MachineName $_.ADAccountName
+  }</pre></div>
+    </div>
+
+    <div>
+      <div class="label" style="margin-top:0">Power management</div>
+      <div class="code-block"><pre># Restart all idle machines
+Get-BrokerMachine -CatalogName "VDI-Pool-01" |
+  Where-Object { $_.SessionCount -eq 0 } |
+  ForEach-Object {
+    New-BrokerHostingPowerAction `
+      -MachineName $_.DNSName `
+      -Action Restart
+  }
+
+# Maintenance mode — all unregistered
+Get-BrokerMachine -CatalogName "VDI-Pool-01" `
+  -RegistrationState Unregistered |
+  Set-BrokerMachineMaintenanceMode `
+  -MaintenanceMode $true
+
+# Force restart VMs pending image update
+Get-BrokerMachine -CatalogName "VDI-Pool-01" |
+  Where-Object { $_.ImageOutOfDate } |
+  ForEach-Object {
+    New-BrokerHostingPowerAction `
+      -MachineName $_.DNSName -Action Restart
+  }</pre></div>
+
+      <div class="label">Clean removal</div>
+      <div class="code-block"><pre># Full clean removal of a machine
+$name = "DOMAIN\VDI-001$"
+
+# Remove from broker
+Remove-BrokerMachine -MachineName $name -Force
+
+# Delete VM from hypervisor
+$vm = Get-ProvVM -VMName "VDI-001"
+Remove-ProvVM -VMName $vm.VMName `
+  -ForgetVM $false  # $false = delete from hypervisor
+
+# Delete AD account
+Remove-AcctADAccount `
+  -IdentityPoolName "VDI-Pool-01" `
+  -ADAccountName $name `
+  -RemovalOption DeleteAccount</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 10. BEST PRACTICES ─── -->
+<section class="content-section" id="bestpractice" style="border-bottom: none;">
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="section-header-text">
+      <h2>Best practices</h2>
+      <p>Architectural and operational recommendations from real-world MCS deployments at scale.</p>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card card-accent-amber">
+      <div class="card-icon-sm" style="background: rgba(245,158,11,0.12)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <h3>Master image hygiene</h3>
+      <div style="margin-top: 0.75rem; display:flex; flex-direction:column; gap: 6px;">
+        <p style="font-size:13px">▪ One image per purpose — separate RDSH and VDI master images. Never mix OS types in one catalog.</p>
+        <p style="font-size:13px">▪ Always run Citrix Optimizer before snapshotting. Select the exact OS + VDA version template.</p>
+        <p style="font-size:13px">▪ Name snapshots with date and patch level: <code style="font-size:11px; color:var(--cyan-light)">Win11-22H2-2025-05-Patch</code></p>
+        <p style="font-size:13px">▪ Test in a dev/test catalog first — never push untested images directly to production.</p>
+        <p style="font-size:13px">▪ Keep minimum 2 previous snapshots before deleting any old ones.</p>
+      </div>
+    </div>
+
+    <div class="card card-accent-cyan" style="border-left-color: var(--cyan)">
+      <div class="card-icon-sm" style="background: rgba(0,180,216,0.12)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <h3>Storage architecture</h3>
+      <div style="margin-top: 0.75rem; display:flex; flex-direction:column; gap: 6px;">
+        <p style="font-size:13px">▪ Always enable MCS I/O Optimisation for non-persistent catalogs — 90%+ storage reduction.</p>
+        <p style="font-size:13px">▪ Place OS base disks and WBC disks on separate datastores to distribute IOPS.</p>
+        <p style="font-size:13px">▪ SSD or NVMe is mandatory for WBC disks — spinning disk causes session degradation at scale.</p>
+        <p style="font-size:13px">▪ On vSAN: use Flash Read Cache Reservation = 0% for WBC storage policy (write-heavy, read cache irrelevant).</p>
+      </div>
+    </div>
+
+    <div class="card card-accent-purple">
+      <div class="card-icon-sm" style="background: rgba(124,58,237,0.12)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>FSLogix profile pairing</h3>
+      <div style="margin-top: 0.75rem; display:flex; flex-direction:column; gap: 6px;">
+        <p style="font-size:13px">▪ FSLogix Profile Containers are mandatory with non-persistent MCS — they make VMs feel persistent to users.</p>
+        <p style="font-size:13px">▪ VHDX format, dynamic sizing. Start at 30 GB for knowledge workers; adjust per workload.</p>
+        <p style="font-size:13px">▪ Place profile shares on HA file servers (Scale-Out File Server or Azure Files for cloud). Profile share unavailability prevents logon.</p>
+        <p style="font-size:13px">▪ Set <code style="font-size:11px; color:var(--cyan-light)">DeleteLocalProfileWhenVHDShouldApply = 1</code> to ensure the container always takes precedence.</p>
+      </div>
+    </div>
+
+    <div class="card card-accent-green">
+      <div class="card-icon-sm" style="background: rgba(16,185,129,0.12)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Capacity &amp; power management</h3>
+      <div style="margin-top: 0.75rem; display:flex; flex-direction:column; gap: 6px;">
+        <p style="font-size:13px">▪ Maintain a buffer pool: keep 10–20% of VMs powered on and idle at all times to absorb demand spikes without logon delays.</p>
+        <p style="font-size:13px">▪ Schedule off-peak VM shutdown to reduce storage I/O and hypervisor overhead overnight.</p>
+        <p style="font-size:13px">▪ For RDSH: schedule nightly reboots to apply image updates and clear accumulated memory leaks.</p>
+        <p style="font-size:13px">▪ Alert when available machines drop below 5% of catalog size — signals an urgent need to add capacity.</p>
+        <p style="font-size:13px">▪ Use Citrix Director or ControlUp for real-time monitoring of session health, login times, and resource utilisation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FSLogix registry quick reference -->
+  <h3 style="font-family:'Syne',sans-serif; font-size:1.1rem; color:var(--white); margin: 2.5rem 0 1rem">FSLogix configuration quick reference</h3>
+  <div class="code-block">
+    <div class="code-label">HKLM\SOFTWARE\FSLogix\Profiles — recommended settings</div>
+    <pre>Enabled                              = 1        ; Enable FSLogix
+VHDLocations                         = \\fileserver\profiles\%username%
+DeleteLocalProfileWhenVHDShouldApply = 1        ; VHD always wins
+SizeInMBs                            = 30720    ; 30 GB — adjust per user type
+VolumeType                           = VHDX     ; VHDX preferred over VHD
+IsDynamic                            = 1        ; Thin-provisioned VHDX
+ConcurrentUserSessions               = 1        ; Allows multiple sessions
+PreventLoginWithFailure              = 0        ; Allow logon even if VHD unavailable (fallback)
+SetTempToLocalPath                   = 2        ; Redirect TEMP to local disk (performance)</pre>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer container">
+  <div class="footer-logo">Citrix MCS Guide</div>
+  <p>Complete technical reference for Machine Creation Services · Citrix Virtual Apps and Desktops</p>
+  <p style="margin-top: 8px; font-size:12px;">Covers CVAD 2402 LTSR and Current Release · vSphere, Azure, Hyper-V, Nutanix AHV</p>
+</footer>
+
+</div><!-- .page-wrap -->
+
+<script>
+// ─── Accordion ───
+function toggleAcc(idx) {
+  const item = document.getElementById('acc-' + idx);
+  const body = document.getElementById('acc-body-' + idx);
+  const isOpen = item.classList.contains('open');
+  item.classList.toggle('open', !isOpen);
+  body.style.maxHeight = isOpen ? '0' : body.scrollHeight + 'px';
+}
+
+// ─── Sticky nav active state ───
+const sections = document.querySelectorAll('.content-section');
+const navTabs = document.querySelectorAll('.nav-tab');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// ─── Smooth scroll for nav ───
+navTabs.forEach(tab => {
+  tab.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(tab.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ─── Reveal animation on scroll ───
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.card, .code-block, .info-box, .compare-table, .checklist').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+  revealObserver.observe(el);
+});
+</script>
+</body>
+</html>
